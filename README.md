@@ -1,16 +1,12 @@
 <p align="center">
-  <a href="https://example.com/">
-    <img src="https://via.placeholder.com/72" alt="Logo" width=72 height=72>
-  </a>
-
-  <h3 align="center">Logo</h3>
+  <h3 align="center">jason-idk/gh-actions</h3>
 
   <p align="center">
-    Short description
+    A collection of composite actions and reusable workflows.
     <br>
-    <a href="https://reponame/issues/new?template=bug.md">Report bug</a>
+    <a href="https://github.com/jason-idk/gh-actions/issues/new?template=bug.md">Report bug</a>
     ·
-    <a href="https://reponame/issues/new?template=feature.md&labels=feature">Request feature</a>
+    <a href="https://github.com/jason-idk/gh-actions/issues/new?template=feature.md&labels=feature">Request feature</a>
   </p>
 </p>
 
@@ -22,62 +18,100 @@
 - [What's included](#whats-included)
 - [Bugs and feature requests](#bugs-and-feature-requests)
 - [Contributing](#contributing)
-- [Creators](#creators)
 - [Thanks](#thanks)
 - [Copyright and license](#copyright-and-license)
 
 
 ## Quick start
 
-Some text
+To begin using the composite actions and reusable workflows found in this repository, simply reference them in your GitHub Workflow accordingly. Read the upstream documentation on using a [composite action](https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action#testing-out-your-action-in-a-workflow) or [reusable workflow](https://docs.github.com/en/actions/sharing-automations/reusing-workflows#calling-a-reusable-workflow).
 
-- Instruction 1
-- Instruction 2
-- Instruction 3
+Example of using a reusable workflow:
+```yaml
+name: Reusable Workflow Example
+
+on:
+  push:
+
+jobs:
+  call-workflow-passing-data:
+    uses: jason-idk/gh-actions/.github/workflows/reusable-workflow.yml@v1
+    with:
+      config-path: .github/extra.yml
+    secrets:
+      personal_access_token: ${{ secrets.token }}
+```
+
+Example of using a composite action:
+```yaml
+name: CI
+
+on:
+  push:
+
+  pull_request:
+    branches: [ "main" ]
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: YAML Lint and Shellcheck
+        uses: jason-idk/gh-actions/.github/actions/gha-linter@v1
+
+      - name: Semantic versioning
+        uses: jason-idk/gh-actions/.github/actions/semantic-versioning@v1
+        with:
+          main_branch: main
+```
 
 ## Status
 
-Here goes all the budgets
+Actively maintained. If you are interested in adding additional workflows or actions, please open a PR! :alien:
+
+I will continue to add new features and address bugs or hotfixes as needed. Make sure to open a bug report or issue.
 
 ## What's included
 
-Some text
+The folder structure looks as follows:
 
 ```text
-folder1/
-└── folder2/
-    ├── folder3/
-    │   ├── file1
-    │   └── file2
-    └── folder4/
-        ├── file3
-        └── file4
+.github/
+└── actions/
+|   ├── action0/
+|   │   ├── action.yml
+|   │   └── script.sh
+|   └── action1/
+|       └── action.yml
+└── workflows/
+    ├── reusable-workflow0.yml
+    └── reusable-workflow1.yml
 ```
+To understand the differences between reusable workflows and composite actions, refer to the following [documentation](https://docs.github.com/en/actions/sharing-automations/reusing-workflows). 
 
 ## Bugs and feature requests
 
-Have a bug or a feature request? Please first read the [issue guidelines](https://reponame/blob/master/CONTRIBUTING.md) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://reponame/issues/new).
+Have a bug or a feature request? Please first read the (***to be added***) [issue guidelines](https://github.com/jason-idk/gh-actions/blob/main/CONTRIBUTING.md) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/jason-idk/gh-actions/issues/new).
 
 ## Contributing
 
-Please read through our [contributing guidelines](https://reponame/blob/master/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
-
-Moreover, all HTML and CSS should conform to the [Code Guide](https://github.com/mdo/code-guide), maintained by [Main author](https://github.com/usernamemainauthor).
-
-Editor preferences are available in the [editor config](https://reponame/blob/master/.editorconfig) for easy use in common text editors. Read more and download plugins at <https://editorconfig.org/>.
-
-## Creators
-
-**Creator 1**
-
-- <https://github.com/usernamecreator1>
+Please read through the (***to be added***) [contributing guidelines](https://github.com/jason-idk/gh-actions/blob/main/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
 
 ## Thanks
 
-Some Text
+Thanks for stopping by, if you find the actions in this repository useful, consider dropping a star :star: and sharing! 
 
 ## Copyright and license
 
-Code and documentation copyright 2011-2018 the authors. Code released under the [MIT License](https://reponame/blob/master/LICENSE).
+Code and documentation copyright 2011-2025 the authors. Code released under the [MIT License](https://github.com/jason-idk/gh-actions/blob/main/LICENSE).
 
 Enjoy :metal:
