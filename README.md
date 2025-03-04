@@ -1,6 +1,5 @@
 <p align="center">
-  <h3 align="center">jason-idk/gh-actions</h3>
-
+  <h1 align="center">jason-idk/gh-actions</h1>
   <p align="center">
     A collection of composite actions and reusable workflows.
     <br>
@@ -9,6 +8,11 @@
     <a href="https://github.com/jason-idk/gh-actions/issues/new?template=feature.md&labels=feature">Request feature</a>
   </p>
 </p>
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jason-idk/gh-actions/ci.yml)
+![GitHub License](https://img.shields.io/github/license/jason-idk/gh-actions?color=yellow)
+[![GitHub Contributors](https://img.shields.io/github/contributors/jason-idk/gh-actions.svg?style=flat)]()
+![GitHub Tag](https://img.shields.io/github/v/tag/jason-idk/gh-actions)
 
 
 ## Table of contents
