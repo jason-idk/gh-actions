@@ -1,0 +1,81 @@
+name: GitHub Actions Linter
+
+runs:
+  using: composite
+
+  steps:
+    - name: Install prerequisites
+      shell: bash
+      run: |
+        # Install & validate shellcheck and yamllint with verbose logging
+          set -x
+
+          if ! (type shellcheck >/dev/null && type yamllint >/dev/null); then
+            if type yum >/dev/null; then
+              sudo yum update -y && sudo yum install -y shellcheck yamllint
+            elif type apt-get >/dev/null; then
+              sudo apt-get update -y && sudo apt-get install -y shellcheck yamllint
+            elif type apk >/dev/null; then
+              sudo apk update && sudo apk add --no-cache shellcheck yamllint
+            else
+              echo "No package manager found, unable to continue."
+              exit 1
+            fi
+          fi
+
+          shellcheck --version
+          yamllint --version
+
+          set +x        
+    - name: Shellcheck
+      shell: bash
+      run: |
+        # Run Shellcheck on all .sh files in repository.
+        check() {
+          local count
+          count=$(find . -type f -name "*.sh" -print0 | xargs -0 shellcheck \
+            --severity=warning \
+            --shell=bash \
+            --color=always \
+            --norc \
+            --format=tty | grep -v "No files specified" | wc -l)
+
+          if [ "$count" -gt 0 ]; then
+            echo "Shellcheck failed, warnings found."
+            exit 1
+          else
+            echo "Shellcheck passed, no warnings found."
+          fi
+        }
+
+        main() {
+          if [ "$(find . -type f -name *.sh -print0 | wc -l)" -eq 0 ]; then
+            echo "No *.sh files found, skipping Shellcheck."
+          else
+            if ! check &>/dev/null; then
+              exit 1
+            fi
+          fi
+        }
+
+        main        
+
+    - name: YAML Linter
+      shell: bash
+      run: |
+        # Run YAML Linter on all YAML files in repository.
+        lint() {
+          find . -type f \( -name "*.yaml" -o -name "*.yml" \) -print0 | xargs -0 yamllint \
+            -d "{extends: relaxed, rules: {line-length: {level: warning}}}" \
+            --format=colored --no-warnings
+        }
+
+        main() {
+          if ! lint; then
+            echo "YAML Lint failed, errors preset." && exit 1
+          fi
+
+          echo "YAML Lint passed, no errors found."
+        }
+
+        main
