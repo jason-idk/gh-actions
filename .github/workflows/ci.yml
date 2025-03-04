@@ -21,9 +21,9 @@ jobs:
           fetch-depth: 0
 
       - name: YAML Lint and Shellcheck
-        uses: https://github.com/jason-idk/gh-actions/.github/actions/gha-linter@feature/baseline-actions
+        uses: jason-idk/gh-actions/.github/actions/gha-linter@feature/baseline-actions
 
       - name: Semantic versioning
-        uses: https://github.com/jason-idk/gh-actions/.github/actions/semantic-versioning@feature/baseline-actions
+        uses: jason-idk/gh-actions/.github/actions/semantic-versioning@feature/baseline-actions
         with:
           main_branch: main
